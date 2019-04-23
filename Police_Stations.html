@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Police Stations and Their Districts</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+   integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+   crossorigin=""></script>
+
+ 
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+   integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+   crossorigin=""/>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url("img_tree.gif"), url("paper.gif");
+            background-color: url("https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjPmJKh_eThAhVGh-AKHXemDZEQjRx6BAgBEAU&url=https%3A%2F%2Fpngtree.com%2Ffreebackground%2Fblue-lines-background-material-side-of-the-dotted-line_242142.html&psig=AOvVaw0tQucj5QRr1molnduadnDN&ust=1556066402506819");
+            font-family: Lato, sans-serif;
+            color: '#0D0000';
+            background-image: url(images/background.jpg)
+        }
+        header {
+            padding: 6px 10%;
+        }
+        h1 {
+            display: inline-block;
+            margin-right: 20px;
+            color: 'blue';
+            text-align:center;
+            font-family: "Times New Roman", Times, serif;
+        }
+        h2 {
+            display: inline-block;
+            color: '#0099ff';
+            text-align:center;
+            font-family: "Times New Roman", Times, serif;
+        }
+        #map {
+            width: 80%;
+            height: 540px;
+            margin: 10px auto;
+        }
+        footer {
+            padding: 6px 10%;
+            width: 80%;
+        }
+        p {
+            font-size: 1em;
+            color: '#0D0000';
+        }
+        table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        }
+        td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        }
+
+        tr:nth-child(even) {
+        background-color: #4285F4;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1><center1>Philadelphia Police Station Locations: </center1></h1>
+        <h2><center2>A Look at Criminal Activity in each District</center2></h2>
+    </header>
+
+    <div id='map'></div>
+
+    <footer>
+       <p1><img src="crimelegend.png" alt="legend"  width="210" height="230"> </p1>
+        <br><p2><b>The data was retrieved from Open Data Philly</b></p2><br>
+        
+    </footer>
+    
+<h2>Police Stations: </h2>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>District</th>
+    <th>Lieutenant in Command</th>
+  </tr>
+  <tr>
+    <td>Bustleton and Bowler, Philadelphia, PA</td>
+    <td>7th</td>
+    <td>Lt. Marnien</td>
+  </tr>
+  <tr>
+    <td>Academy and Red Lion, Philadelphia, PA</td>
+    <td>8th</td>
+    <td>Lt. MacNeal</td>
+  </tr>
+  <tr>
+    <td>Harbison Ave and Levick St, Philadelphia, PA </td>
+    <td>15th</td>
+    <td>Lt. Bugieda</td>
+  </tr>
+  <tr>
+    <td>N Broad St and Champlost St, Philadelphia, PA</td>
+    <td>35th</td>
+    <td>Lt. Cooke</td>
+  </tr>
+  <tr>
+    <td>Haines St and Germantown Ave, Philadelphia, PA</td>
+    <td>14th</td>
+    <td>Lt. Jackson</td>
+  </tr>
+  <tr>
+    <td>Ridge Ave and Cinnaminson St, Philadelphia, PA</td>
+    <td>5th</td>
+    <td>Lt. Corso</td>
+  </tr>
+      <tr>
+    <td>22nd St and Hunting Park Ave, Philadelphia, PA</td>
+    <td>39th</td>
+    <td>Lt. Deal</td>
+  </tr>  <tr>
+    <td>3901 Whitaker Ave, Philadelphia, PA</td>
+    <td>24th</td>
+    <td>Lt. Clark</td>
+  </tr>  <tr>
+    <td>17th St and Montgomery Ave, Philadelphia, PA</td>
+    <td>22nd</td>
+    <td>Lt. Quaiser</td>
+  </tr>  <tr>
+    <td>E Girard Ave and Montgomery Ave, Philadelphia, PA</td>
+    <td>26th</td>
+    <td>Lt. Volack</td>
+  </tr>
+     <tr>
+    <td>61st St and Thompson St, Philadelphia, PA</td>
+    <td>19th</td>
+    <td>Lt. Walker</td>
+  </tr>
+    <tr>
+    <td>39th St and Lancaster Ave, Philadelphia, PA</td>
+    <td>16th</td>
+    <td>Lt. Kappe</td>
+  </tr>
+    <tr>
+    <td>40th and Chestnut, Philadelphia, PA</td>
+    <td>16th</td>
+    <td>Lt. Kappe</td>
+  </tr>
+    <tr>
+    <td>55th St and Pine St, Philadelphia, PA</td>
+    <td>18th</td>
+    <td>Lt. McCollum</td>
+  </tr>
+    <tr>
+    <td>20th St and Pennsylvania Ave, Philadelphia, PA</td>
+    <td>9th</td>
+    <td>Lt. O'Connor</td>
+  </tr>
+    <tr>
+    <td>11th St and Winter St, Philadelphia, PA</td>
+    <td>6th</td>
+    <td>Lt. Milillo</td>
+  </tr>
+     <tr>
+    <td>750 Race St, Philadelphia, PA</td>
+    <td>Philadelphia Police Main Headquarters</td>
+    <td>Lt. Milillo</td>
+  </tr> <tr>
+    <td>660 Chestnut St, Philadelphia, PA</td>
+    <td>Center City Police</td>
+    <td>Lt. Milillo</td>
+  </tr> <tr>
+    <td>11th St and Wharton St, Philadelphia, PA</td>
+    <td>3rd</td>
+    <td>Lt. Kimrey</td>
+  </tr> <tr>
+    <td>20th St and Federal St, Philadelphia, PA</td>
+    <td>17th</td>
+    <td>Lt. Taylor</td>
+  </tr>
+    <tr>
+    <td>24th St and Wolf St, Philadelphia, PA</td>
+    <td>1st</td>
+    <td>Lt. Ball</td>
+  </tr>
+    <tr>
+    <td>65th St and Woodland Ave, Philadelphia, PA</td>
+    <td>12th</td>
+    <td>Lt. Brown</td>
+  </tr>
+</table>
+
+    <script src="Police_Stations.geojson"></script>
+    <script src="Boundaries_District.geojson"></script>
+    <script>
+        
+
+
+      var map = L.map('map', {
+          center: [39.9999,-75.1152],
+          zoom: 11,
+      });
+      
+var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+          subdomains: 'abcd',
+          maxZoom: 19
+ }); 
+       tiles.addTo(map);
+        
+/*L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+   }) .addTo(map);
+        */
+    
+ var boundariesLayers = L.layerGroup(District1, District2, District3, District5, District6, District7, District8, District9, District12, District14, District15, District16, District17, District18, District19, District22, District24, District25, District26, District35, District39).addTo(map);
+        
+var District1 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 1) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#0099ff",
+            weight: 0,
+            fillColor: '#0099ff',
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),  
+        layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "54,243 Crimes in 2018" ).openPopup();
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#0099ff',
+            fillColor: '#0099ff',
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers); 
+        
+var District2 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 2) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#0033cc",
+            weight: 0,
+            fillColor: '#0033cc',
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),  
+        layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "131,699 Crimes in 2018" ).openPopup(); 
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#0033cc',
+            fillColor: '#0033cc',
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers); 
+        
+var District3 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 3) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#0066ff",
+            weight: 0,
+            fillColor: '#0066ff',
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),  
+       layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "100,409 Crimes in 2018" ).openPopup();
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#0066ff',
+            fillColor: '#0066ff',
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers); 
+
+var District5 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 5) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#0099ff",
+            weight: 0,
+            fillColor: '#0099ff',
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),
+               
+       layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "36,136 Crimes in 2018" ).openPopup();
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#0099ff',
+            fillColor: '#0099ff',
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers); 
+
+var District6 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 6) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#0066ff",
+            weight: 0,
+            fillColor: '#0066ff',
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),  
+        layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "111,589 Crimes in 2018" ).openPopup();
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#0066ff',
+            fillColor: '#0066ff',
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers);   
+        
+var District7 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 7) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: '#0099ff',
+            weight: 0,
+            fillColor: '#0099ff',
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),  
+        layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "50,300 Crimes in 2018" ).openPopup(); 
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#0099ff',
+            fillColor: '#0099ff',
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers);
+        
+var District8 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 8) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: '#0099ff',
+            weight: 0,
+            fillColor: '#0099ff',
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),  
+        layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "83,110 Crimes in 2018" ).openPopup(); 
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#0099ff',
+            fillColor: '#0099ff',
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers);
+        
+var District9 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 9) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#0099ff",
+            weight: 0,
+            fillColor: '#0099ff',
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),
+               
+       layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "98,444 Crimes in 2018" ).openPopup();
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#0099ff',
+            fillColor: '#0099ff',
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers); 
+        
+var District12 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 12) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#0033cc",
+            weight: 0,
+            fillColor: "#0033cc",
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),  
+        layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "149,936 Crimes in 2018" ).openPopup();
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: "#0033cc",
+            fillColor: "#0033cc",
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers); 
+        
+var District14 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 14) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#0033cc",
+            weight: 0,
+            fillColor: '#0033cc',
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),  
+        layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "139,737 Crimes in 2018" ).openPopup();
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#0033cc',
+            fillColor: '#0033cc',
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers); 
+        
+var District15 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 15) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#003399",
+            weight: 0,
+            fillColor: '#003399',
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),  
+        layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "210,146 Crimes in 2018" ).openPopup(); 
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#003399',
+            fillColor: '#003399',
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers); 
+
+var District16 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 16) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#0099ff",
+            weight: 0,
+            fillColor: "#0099ff",
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),
+               
+        layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "85,576 Crimes in 2018" ).openPopup();
+           
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: "#0099ff",
+            fillColor: '#0099ff',
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers); 
+
+var District17 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 17) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#0099ff",
+            weight: 0,
+            fillColor: '#0099ff',
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),  
+        layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "84,134 Crimes in 2018" ).openPopup(); 
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#0099ff',
+            fillColor: '#0099ff',
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers);         
+        
+var District18 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 18) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#0033cc",
+            weight: 0,
+            fillColor: "#0033cc",
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),  
+       layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "127,246 Crimes in 2018" ).openPopup(); 
+            
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#0033cc',
+            fillColor: "#0033cc",
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers);
+        
+var District19 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 19) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#003399",
+            weight: 0,
+            fillColor: "#003399",
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),
+               
+        layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "165,277 Crimes in 2018" ).openPopup(); 
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: "#003399",
+            fillColor: "#003399",
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers); 
+        
+var District22 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 22) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#003399",
+            weight: 0,
+            fillColor: '#003399',
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),  
+        layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "150,532 Crimes in 2018" ).openPopup();
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#003399',
+            fillColor: '#003399',
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers); 
+
+var District24 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 24) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#003399",
+            weight: 0,
+            fillColor: '#003399',
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),
+               
+       layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "188,137 Crimes in 2018" ).openPopup();
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#003399',
+            fillColor: '#003399',
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers); 
+
+var District25 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 25) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#003399",
+            weight: 0,
+            fillColor: '#003399',
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(watershedMouseover),  
+        layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "171,154 Crimes in 2018" ).openPopup();
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#003399',
+            fillColor: '#003399',
+            fillOpacity: 2,
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers);         
+        
+var District26 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 26) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#0099ff",
+            weight: 0,
+            fillColor: '#0099ff',
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(watershedMouseover),  
+         layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "99,525 Crimes in 2018" ).openPopup();
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#0099ff',
+            fillColor: '#0099ff',
+            fillOpacity: 2,
+            
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers);
+        
+var District35 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 35) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#003399",
+            weight: 0,
+            fillColor: '#003399',
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),
+               
+        layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "151,272 Crimes in 2018" ).openPopup();
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: '#003399',
+            fillColor: '#003399',
+            fillOpacity: 2,
+            color: 'white'
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers); 
+        
+var District39 = L.geoJson(policedistricts, { 
+    
+    filter: function(feature) {
+         if(feature.properties.DISTRICT_ == 39) {
+             return feature;
+         }},
+      style: function(feature) {
+        return {
+            color: "#0066ff",
+            weight: 0,
+            fillColor: "#0066ff",
+            fillOpacity: 2,
+        }},
+    onEachFeature : function(feature, layer) {
+       layer.on('mouseover', function() {
+           layer.setStyle(boundariesMouseover),
+               
+                
+        layer.bindPopup("<b style='color:Black'>" +"District " + feature.properties.DISTRICT_ + "</b><br>" + "116,233 Crimes in 2018" ).openPopup();
+           
+        layer.on('mouseout', function() {
+            layer.setStyle({
+            weight: 0, 
+            color: "#0066ff",
+            fillColor: "#0066ff",
+            fillOpacity: 2,
+            color: 'white'
+        });
+            layer.closePopup();
+    });
+    
+       })}}).addTo(boundariesLayers); 
+var boundariesMouseover = {
+               fillOpacity: .5, 
+           }   
+var boundariesMouseover = {
+               fillOpacity: .5, 
+           }      
+
+
+
+
+
+  var police = L.geoJson(policestations, {
+    pointToLayer: function(feature,latlng) {
+        return L.circleMarker(latlng, {
+            color: 'blue',
+            weight: 5,
+            fillColor: 'white',
+            fillOpacity: 8,
+            radius: 7
+        });   
+    },
+       
+onEachFeature : function(feature,layer) {
+        layer.on('mouseover', function() {
+    layer.setStyle({
+        fillColor: '#4885ed'
+    });
+});
+layer.on('mouseout', function() {
+    layer.setStyle({
+        fillColor: 'white'
+    });
+});
+    
+var district = feature.properties.DISTRICT_NUMBER
+var telephone = feature.properties.TELEPHONE_NUMBER
+var pop= "<b>" + feature.properties.LOCATION+ "</b><br>"+ "215-" +
+    telephone.toLocaleString() +"<i><br>" + "District: " + district.toLocaleString() + "</i>"
+
+layer.bindPopup(pop);
+    }
+   
+
+ 
+})
+  .addTo(map);
+        
+
+        
+function getRadius(area) {
+    var radius = Math.sqrt(area/Math.PI);
+    return radius * .2;  
+}
+
+ var allLayers = {
+     "<b style= 'color:#4885ed'>Police Stations</b>":police,
+     "<b style= 'color:grey'>District 1</b>":District1,
+     "<b style= 'color:grey'>District 2</b>":District2,
+     "<b style= 'color:grey'>District 3</b>":District3,
+     "<b style= 'color:grey'>District 5</b>":District5,
+     "<b style= 'color:grey'>District 6</b>":District6,
+     "<b style= 'color:grey'>District 7</b>":District7,
+     "<b style= 'color:grey'>District 8</b>":District8,
+     "<b style= 'color:grey'>District 9</b>":District9,
+     "<b style= 'color:grey'>District 12</b>":District12,
+     "<b style= 'color:grey'>District 14</b>":District14,
+     "<b style= 'color:grey'>District 15</b>":District15,
+     "<b style= 'color:grey'>District 16</b>":District16,
+     "<b style= 'color:grey'>District 17</b>":District17,
+     "<b style= 'color:grey'>District 18</b>":District18,
+     "<b style= 'color:grey'>District 19</b>":District19,
+     "<b style= 'color:grey'>District 22</b>":District22,
+     "<b style= 'color:grey'>District 24</b>":District24,
+     "<b style= 'color:grey'>District 25</b>":District25,
+     "<b style= 'color:grey'>District 26</b>":District26,
+     "<b style= 'color:grey'>District 35</b>":District35,
+     "<b style= 'color:grey'>District 39</b>":District39
+ }
+        
+ L.control.layers(null, allLayers, { collapsed:true }).addTo(map);
+        
+        
+        
+
+    </script>
+    
+</body>
+
+</html>
